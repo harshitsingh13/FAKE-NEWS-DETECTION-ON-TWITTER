@@ -1,0 +1,91 @@
+#######################3program to remove duplicates from csv file################
+import pandas as pd
+import text2emotion as te 
+from textblob import TextBlob
+
+# making data frame from csv file
+data = pd.read_csv("filename")
+print(len(data))  
+# sorting by first name
+#data.sort_values("First Name", inplace = True)
+  
+# dropping ALL duplicte values
+data=data.drop_duplicates(subset=None, keep='first', inplace=False)
+data=data.to_numpy() 
+data=data.tolist()
+# displaying data
+id=[]
+text=[]
+for i in data:
+  id.append(i[0])
+  text.append(i[1])
+  #print(i[0])
+engtext=[]
+
+
+def add_d(d1,d2):
+  for i in d1:
+    if i in d2:
+      d1[i]=d2[i]+d1[i]
+    else:
+      pass
+
+L1=[0,0,0,0,0]
+d1=dict(te.get_emotion(text[0]))
+print(d1)
+print(text[0])
+idx=0
+engtext[0]=text[0]
+for i in range(1,len(text)):
+  print(text[i])
+  D2=dict(te.get_emotion(text[i]))
+  #print('original')
+  print(D2)
+  if(D2.get('Happy')>0):
+    L1[0]+=1
+  if(D2.get('Angry')>0):
+    L1[1]+=1
+  if(D2.get('Surprise')>0):
+    L1[2]+=1
+  if(D2.get('Sad')>0):
+    L1[3]+=1
+  if(D2.get('Fear')>0):
+    L1[4]+=1
+  
+  #add_d(d1,D2)
+  #blob = TextBlob(text[i])
+  #s=blob.translate(to='en')
+  #print(s)
+  #ab=blob.detect_language()
+  #print(ab)
+  if(D2.get('Happy')==0 and D2.get('Angry')==0 and D2.get('Surprise')==0 and D2.get('Sad')==0 and D2.get('Fear')==0):
+    try: 
+      exception='Translation API returned the input string unchanged.'
+      blob = TextBlob(text[i])
+      s=blob.translate(to='en')
+    except :  
+        print ("Exception is Raised.")
+    else:  
+        print ("Success, no error!")
+        engtext[i]=s
+        idx=i
+        D2=dict(te.get_emotion(str(s)))
+        #print(D2)
+        if(D2.get('Happy')>0):
+          L1[0]+=1
+        if(D2.get('Angry')>0):
+          L1[1]+=1
+        if(D2.get('Surprise')>0):
+          L1[2]+=1
+        if(D2.get('Sad')>0):
+          L1[3]+=1
+        if(D2.get('Fear')>0):
+          L1[4]+=1
+        #add_d(d1,D2)
+
+  add_d(d1,D2)
+
+print(d1)
+print(L1)
+print(len(data))
+print('index fetch:',idx)
