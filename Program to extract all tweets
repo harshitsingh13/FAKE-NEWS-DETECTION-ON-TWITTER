@@ -1,4 +1,4 @@
-#############program to get all retweets###############
+#############program to get all tweets###############
 import sys
 import tweepy
 import csv
