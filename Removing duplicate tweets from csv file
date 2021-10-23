@@ -1,0 +1,14 @@
+#######################3program to remove duplicates from csv file################
+import pandas as pd
+  
+# making data frame from csv file
+data = pd.read_csv("filename.csv")
+print(len(data))  
+# sorting by first name
+#data.sort_values("First Name", inplace = True)
+  
+# dropping ALL duplicte values
+data=data.drop_duplicates(subset=None, keep='first', inplace=False)
+  
+# displaying dataata
+print(len(data))
