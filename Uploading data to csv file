@@ -1,0 +1,9 @@
+#########################program to store tweets data#############
+with open('filename.csv', 'a') as f:
+    csv_writer = csv.DictWriter(f, fieldnames=('user', 'text'))
+    csv_writer.writeheader()
+    for i in range(len(users)):
+        #print(replies[i])
+        row = {'user': idtwe[i], 'text': ftweet[i]}
+        csv_writer.writerow(row)
+        
